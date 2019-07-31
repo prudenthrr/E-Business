@@ -89,7 +89,7 @@ class TestBase(unittest.TestCase):
         response = self.session.get(login_url)
         # csrf_token = response.cookies["csrftoken"]       #获取csrf_token
         if self.sign=='1':
-            payload = {"username": username, "password": password, "csrfmiddlewaretoken": csrf_token}
+            payload = {"username": username, "password": password}
             try:
                 response = self.session.post(login_url,data=payload)
             except Exception as e:
