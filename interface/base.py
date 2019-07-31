@@ -1,9 +1,13 @@
 import unittest
 from interface.util import *
+import os
+
 
 class TestBase(unittest.TestCase):
 
     def setUp(self):
+        self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
         self.live_server_url = 'http://127.0.0.1:8000/'
         self.database = DB()
         self.database.connect()
@@ -83,7 +87,7 @@ class TestBase(unittest.TestCase):
         username = userValue.split(',')[1].strip('\"')    # 用户名
         password = userValue.split(',')[2].strip('\"')    # 登录密码
         response = self.session.get(login_url)
-        csrf_token = response.cookies["csrftoken"]       #获取csrf_token
+        # csrf_token = response.cookies["csrftoken"]       #获取csrf_token
         if self.sign=='1':
             payload = {"username": username, "password": password, "csrfmiddlewaretoken": csrf_token}
             try:
@@ -94,8 +98,8 @@ class TestBase(unittest.TestCase):
             if test_data["Method"] == "post":
                 payload = eval(test_data["InptArg"])
                 # 如果不是测试CSRF的
-                if test_data["Result"] != "403":
-                    payload["csrfmiddlewaretoken"] = csrf_token
+                # if test_data["Result"] != "403":
+                #     payload["csrfmiddlewaretoken"] = csrf_token
                 response = self.session.post(run_url, data=payload)
             elif test_data["Method"] == "get":
                 if test_data["InptArg"]=='':
