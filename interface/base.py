@@ -7,7 +7,6 @@ class TestBase(unittest.TestCase):
 
     def setUp(self):
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
         self.live_server_url = 'http://127.0.0.1:8000/'
         self.database = DB()
         self.database.connect()
