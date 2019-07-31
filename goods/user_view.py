@@ -1,5 +1,3 @@
-from django.core.paginator import Paginator, PageNotAnInteger
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from goods.forms import *
 from goods.util import Util
@@ -21,12 +19,12 @@ def login_action(request):
         if uf.is_valid():
             username = request.POST.get('username','')
             password = request.POST.get('password','')
-            password = util.md5(password)
+            # password = util.md5(password)
             if username=='' or password=='':
                 render(request, 'index.html', {'uf':uf, 'error':'用户名或者密码不能为空'})
             else:
                 is_usr = User.objects.filter(username=username)
-                if not is_usr :
+                if not is_usr:
                     return render(request, 'index.html',{'uf':uf, 'error': '用户名不存在，请注册'})
                 else:
                     user_info = User.objects.filter(username=username, password=password)
@@ -50,7 +48,7 @@ def register(request):
             username = request.POST.get('username','')  # 获取用户名
             password = request.POST.get('password','')   #获取密码
             email = request.POST.get('email','')
-            password = util.md5(password)
+            # password = util.md5(password)
             user_list = User.objects.filter(username=username)
             if user_list:
                 # 当前用户存在
@@ -96,9 +94,15 @@ def change_password(request):
         if request.method=='POST':
             uf = ChangePasswordForm(request.POST)
             if uf.is_valid():
-                oldpassword = util.md5(request.POST.get('oldpassword',''))   # 获取旧密码
-                newpassword = util.md5(request.POST.get('newpassword','') )  # 获取新密码
-                checkpassword = util.md5(request.POST.get('checkpassword',''))   # 获取确认密码
+                # oldpassword = util.md5(request.POST.get('oldpassword',''))   # 获取旧密码
+                # newpassword = util.md5(request.POST.get('newpassword','') )  # 获取新密码
+                # checkpassword = util.md5(request.POST.get('checkpassword',''))   # 获取确认密码
+
+                oldpassword = request.POST.get('oldpassword', '')  # 获取旧密码
+                newpassword = request.POST.get('newpassword', '') # 获取新密码
+                checkpassword = request.POST.get('checkpassword', '')
+
+
                 if oldpassword != user_list.password:
                     return render(request, 'change_password.html', {'uf':uf,'user':username, 'error':'旧密码不正确',
                                                                     'count':count})
