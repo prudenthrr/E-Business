@@ -54,7 +54,8 @@ class GetXML:
             id = (str(ids[i].firstChild.data)).strip()
             username = "\""+(usernames[i].firstChild.data).strip()+"\""
             password = "\""+(passwords[i].firstChild.data).strip()+"\""
-            password = Util.md5(password)
+            # util = Util()
+            # password = util.md5(password)
             email = "\""+(emails[i].firstChild.data).strip()+"\""
             values = id+","+username+","+password+","+email
             InitInfos.append(values)
